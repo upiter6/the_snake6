@@ -35,3 +35,6 @@ pygame.display.set_caption('Змейка')
 
 # Настройка времени:
 clock = pygame.time.Clock()
+
+# Тут опишите все классы игры.
+...
