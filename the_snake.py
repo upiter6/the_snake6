@@ -46,8 +46,17 @@ body_color=None):
         self.body_color = body_color
     def draw(self):
         pass
+
+
 class Apple(GameObject):
-pass
+    def __init__(self):
+        super().__init__(body_color = APPLE_COLOR)
+        self.randomize_position()
+    
+    def randomize_position(self):
+        self.position = (randint(SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE, randint(0, SCREEN_HEIGHT // GRID_SIZE-1 * GRID_SIZE))
+       
+    
 class Snake(GameObject):
 pass
 
