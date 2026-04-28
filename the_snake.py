@@ -38,7 +38,14 @@ clock = pygame.time.Clock()
 
 # Тут опишите все классы игры.
 class GameObject:
-pass
+    def __init__(self,
+position=(SCREEN_WIDTH // 2,
+SCREEN_HEIGHT // 2),
+body_color=None):
+        self.position = position
+        self.body_color = body_color
+    def draw(self):
+        pass
 class Apple(GameObject):
 pass
 class Snake(GameObject):
