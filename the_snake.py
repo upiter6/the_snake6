@@ -1,6 +1,6 @@
 from random import choice, randint
-
 import pygame
+import sys
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
@@ -28,7 +28,7 @@ SNAKE_COLOR = (0, 255, 0)
 SPEED = 20
 
 # Настройка игрового окна:
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+#screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 
 # Заголовок окна игрового поля:
 pygame.display.set_caption('Змейка')
@@ -112,20 +112,19 @@ class Snake(GameObject):
         self.next_direction = None
         self.last = None
 def handle_keys(snake):
-       for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                raise SystemExit
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    snake.next_direction = UP
-                elif event.key == pygame.K_DOWN:
-                    snake.next_direction = DOWN
-                elif event.key == pygame.K_LEFT:
-                    snake.next_direction = LEFT
-                elif event.key == pygame.K_RIGHT:
-                    snake.next_direction = RIGHT
-        
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake.next_direction = UP
+            elif event.key == pygame.K_DOWN:
+                snake.next_direction = DOWN
+            elif event.key == pygame.K_LEFT:
+                snake.next_direction = LEFT
+            elif event.key == pygame.K_RIGHT:
+                snake.next_direction = RIGHT
         
         
 def main():
