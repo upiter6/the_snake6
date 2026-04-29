@@ -77,6 +77,12 @@ class Snake(GameObject):
         self.positions.insert(0, new_head)
         if len(self.positions) > self.length:
             self.positions.pop()
+    def draw(self):
+        for pos in self.positions:
+            rect = pygame.Rect(pos[0], pos[1], GRID_SIZE, GRID_SIZE)
+            pygame.draw.rect(screen, self.body_color, rect)
+            pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+        
 def main():
     # Инициализация PyGame:
     pygame.init()
