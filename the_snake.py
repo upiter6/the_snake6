@@ -71,6 +71,7 @@ class Snake(GameObject):
         self.positions = [self.position]
         self.direction = RIGHT
         self.next_direction = None
+        self.last = None
     def update_direction(self):
         if self.next_direction is not None:# Имеется ввиду если следущее направление не противоречит прошлому делаем ход
             opposite = (-self.direction[0], -self.direction[1])
@@ -81,9 +82,15 @@ class Snake(GameObject):
         head_x, head_y = self.positions[0]
         new_head = (head_x + self.direction[0] * GRID_SIZE,
                     head_y + self.direction[1] * GRID_SIZE)
+        new_head = (
+            new_head[0] % SCREEN_WIDTH,
+            new_head[1] % SCREEN_HEIGHT
+        )
         self.positions.insert(0, new_head)
         if len(self.positions) > self.length:
-            self.positions.pop()
+            self.last = self.positions.pop()
+        else:
+            self.last = None
     def draw(self):
         for pos in self.positions:
             rect = pygame.Rect(pos[0], pos[1], GRID_SIZE, GRID_SIZE)
