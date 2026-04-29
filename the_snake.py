@@ -110,6 +110,7 @@ class Snake(GameObject):
         self.positions = [self.position]
         self.direction = RIGHT
         self.next_direction = None
+        self.last = None
 def handle_keys(snake):
        for event in pygame.event.get():
             if event.type == pygame.QUIT:
