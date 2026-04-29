@@ -55,7 +55,14 @@ class Apple(GameObject):
     
     def randomize_position(self):
         self.position = (randint(0, SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE, randint(0, SCREEN_HEIGHT // GRID_SIZE-1) * GRID_SIZE)
-       
+    
+    
+
+    def draw(self):
+        rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, self.body_color, rect)
+        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
     
 class Snake(GameObject):
     def __init__(self):
@@ -92,19 +99,44 @@ class Snake(GameObject):
         self.positions = [self.position]
         self.direction = RIGHT
         self.next_direction = None
+def handle_keys(snake):
+       for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                raise SystemExit
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    snake.next_direction = UP
+                elif event.key == pygame.K_DOWN:
+                    snake.next_direction = DOWN
+                elif event.key == pygame.K_LEFT:
+                    snake.next_direction = LEFT
+                elif event.key == pygame.K_RIGHT:
+                    snake.next_direction = RIGHT
+        
         
         
 def main():
     # Инициализация PyGame:
     pygame.init()
     # Тут нужно создать экземпляры классов.
-    ...
+    snake = Snake()
+    apple = Apple(snake.positions)
 
-    # while True:
-    #     clock.tick(SPEED)
+    while True:
+        clock.tick(SPEED)
+        handle_keys(snake)
+        snake.update_direction()
+        snake.move()
+        
+        
+        if snake.get_head_position() == apple.position:
+            snake.length += 1
+            apple.randomize_position()
+        snake.draw()
+        apple.draw()
+        pygame.display.update()
 
-        # Тут опишите основную логику игры.
-        # ...
 
 
 if __name__ == '__main__':
