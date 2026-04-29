@@ -84,6 +84,15 @@ class Snake(GameObject):
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
     def get_head_position(self):
         return self.positions[0]
+
+    
+    
+    def reset(self):
+        self.length = 1
+        self.positions = [self.position]
+        self.direction = RIGHT
+        self.next_direction = None
+        
         
 def main():
     # Инициализация PyGame:
