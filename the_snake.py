@@ -64,7 +64,12 @@ class Snake(GameObject):
         self.positions = [self.position]
         self.direction = RIGHT
         self.next_direction = None
-
+    def update_direction(self):
+        if self.next_direction is not None:# Имеется ввиду если следущее направление не противоречит прошлому делаем ход
+            opposite = (-self.direction[0], -self.direction[1])
+            if self.next_direction != opposite:
+                self.direction = self.next_direction
+            self.next_direction = None
 
 def main():
     # Инициализация PyGame:
