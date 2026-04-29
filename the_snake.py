@@ -70,7 +70,13 @@ class Snake(GameObject):
             if self.next_direction != opposite:
                 self.direction = self.next_direction
             self.next_direction = None
-
+    def move(self):
+        head_x, head_y = self.positions[0]
+        new_head = (head_x + self.direction[0] * GRID_SIZE,
+                    head_y + self.direction[1] * GRID_SIZE)
+        self.positions.insert(0, new_head)
+        if len(self.positions) > self.length:
+            self.positions.pop()
 def main():
     # Инициализация PyGame:
     pygame.init()
