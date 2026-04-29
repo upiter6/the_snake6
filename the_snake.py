@@ -54,11 +54,17 @@ class Apple(GameObject):
         self.randomize_position()
     
     def randomize_position(self):
-        self.position = (randint(SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE, randint(0, SCREEN_HEIGHT // GRID_SIZE-1 * GRID_SIZE))
+        self.position = (randint(0, SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE, randint(0, SCREEN_HEIGHT // GRID_SIZE-1) * GRID_SIZE)
        
     
 class Snake(GameObject):
-pass
+    def __init__(self):
+        super().__init__(body_color=SNAKE_COLOR) 
+        self.length = 1
+        self.positions = [self.position]
+        self.direction = RIGHT
+        self.next_direction = None
+
 
 def main():
     # Инициализация PyGame:
