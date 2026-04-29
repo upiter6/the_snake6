@@ -82,6 +82,8 @@ class Snake(GameObject):
             rect = pygame.Rect(pos[0], pos[1], GRID_SIZE, GRID_SIZE)
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+    def get_head_position(self):
+        return self.positions[0]
         
 def main():
     # Инициализация PyGame:
