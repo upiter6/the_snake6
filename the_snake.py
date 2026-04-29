@@ -131,9 +131,12 @@ def handle_keys(snake):
 def main():
     # Инициализация PyGame:
     pygame.init()
+    global screen
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+    pygame.display.set_caption('Змейка')
     # Тут нужно создать экземпляры классов.
     snake = Snake()
-    apple = Apple(snake.positions)
+    apple = Apple()
 
     while True:
         clock.tick(SPEED)
@@ -145,9 +148,22 @@ def main():
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position()
+            
+            
+            
+            
+        head = snake.get_head_position()
+        if head in snake.positions[1:]:
+            snake.reset()
+            apple.randomize_position()
+        
+        screen.fill(BOARD_BACKGROUND_COLOR)
+        
         snake.draw()
         apple.draw()
+
         pygame.display.update()
+
 
 
 
