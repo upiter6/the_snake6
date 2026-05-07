@@ -163,24 +163,32 @@ def main():
 
     while True:
         clock.tick(SPEED)
+
         handle_keys(snake)
+
         snake.update_direction()
+
         snake.move()
 
-        # Если змейка съела яблоко
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position()
 
-        # Столкновение змейки с собой
-        head = snake.get_head_position()
-        if head in snake.positions[1:]:
+            while apple.position in snake.positions:
+                apple.randomize_position()
+
+        if snake.get_head_position() in snake.positions[1:]:
+            pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR,
+                             (0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
             snake.reset()
             apple.randomize_position()
 
-        screen.fill(BOARD_BACKGROUND_COLOR)
-        snake.draw()
-        apple.draw()
+            while apple.position in snake.positions:
+                apple.randomize_position()
+
+        snake.draw(screen)
+        apple.draw(screen)
+
         pygame.display.update()
 
 
