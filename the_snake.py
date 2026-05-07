@@ -23,22 +23,27 @@ SNAKE_COLOR = (0, 255, 0)
 # Скорость движения змейки:
 SPEED = 20
 
-pygame.init()
+# Настройка нашего игрового окна:
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+
+# Заголовок игрового окна:
 pygame.display.set_caption('Змейка')
+
+# Настройка времени:
 clock = pygame.time.Clock()
 
 
 class GameObject:
     """Базовый класс для всех игровых объектов."""
 
-    def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
-                 body_color=None):
+    def __init__(self, position=None, body_color=None):
+        """Инициализирует базовый игровой объект."""
         self.position = position
         self.body_color = body_color
 
-    def draw(self):
-        """Абстрактный метод отрисовки (переопределяется в наследниках)."""
+    def draw(self, surface):
+        """Абстрактный метод отрисовки."""
         pass
 
 
