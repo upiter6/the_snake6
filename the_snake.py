@@ -69,15 +69,29 @@ class Apple(GameObject):
 
 
 class Snake(GameObject):
-    """Класс змейки: управляет движением, ростом и отрисовкой."""
+    """Класс змейки наследует GameObject: управляет движением, ростом и отрисовкой."""
 
     def __init__(self):
+        """Инициализирует начальное состояние змейки."""
         super().__init__(body_color=SNAKE_COLOR)
-        self.length = 1
-        self.positions = [self.position]  # начальная позиция — центр экрана
+        self.reset()
         self.direction = RIGHT
         self.next_direction = None
-        self.last = None  # координаты удалённого хвоста (для затирания)
+    
+    def reset(self):
+        """Сбрасывает змейку в начальное состояние."""
+        if hasattr(self, 'positions'):
+            for position in self.positions:
+                rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
+                pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, rect)
+                
+        center_x = SCREEN_WIDTH // 2
+        center_y = SCREEN_HEIGHT // 2
+        center_x = (center_x // GRID_SIZE) * GRID_SIZE
+        center_y = (center_y // GRID_SIZE) * GRID_SIZE
+        self.positions = [(center_x, center_y)]
+        self.length = 1
+        self.last = None
 
     def update_direction(self):
         """Обновляет направление движения."""
@@ -85,49 +99,42 @@ class Snake(GameObject):
             self.direction = self.next_direction
             self.next_direction = None
 
+    def get_head_position(self):
+        """Возвращает позицию головы змейки."""
+        return self.positions[0]
+    
     def move(self):
         """Передвигает змейку на одну клетку, проходя сквозь стены."""
-        head_x, head_y = self.positions[0]
-        new_head = (head_x + self.direction[0] * GRID_SIZE,
-                    head_y + self.direction[1] * GRID_SIZE)
-        # Прохождение сквозь стены (wrap-around)
-        new_head = (new_head[0] % SCREEN_WIDTH, new_head[1] % SCREEN_HEIGHT)
+        head = self.get_head_position()
+        x, y = self.direction
+
+        new_head = ((head[0] + (x * GRID_SIZE)) % SCREEN_WIDTH,
+                    (head[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
 
         self.positions.insert(0, new_head)
+
         if len(self.positions) > self.length:
             self.last = self.positions.pop()
         else:
             self.last = None
 
-    def draw(self):
+    def draw(self, surface):
         """Отрисовывает змейку и затирает след."""
         # Рисуем все сегменты, кроме последнего
         for position in self.positions[:-1]:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
-            pygame.draw.rect(screen, self.body_color, rect)
-            pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+            pygame.draw.rect(surface, self.body_color, rect)
+            pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
         # Отрисовка головы змейки
         head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(screen, self.body_color, head_rect)
-        pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
+        pygame.draw.rect(surface, self.body_color, head_rect)
+        pygame.draw.rect(surface, BORDER_COLOR, head_rect, 1)
 
         # Затирание последнего сегмента
         if self.last:
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
-            pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
-
-    def get_head_position(self):
-        """Возвращает координаты головы змейки."""
-        return self.positions[0]
-
-    def reset(self):
-        """Сбрасывает змейку в начальное состояние после столкновения."""
-        self.length = 1
-        self.positions = [self.position]
-        self.direction = RIGHT
-        self.next_direction = None
-        self.last = None
+            pygame.draw.rect(surface, BOARD_BACKGROUND_COLOR, last_rect)
 
 
 def handle_keys(game_object):
