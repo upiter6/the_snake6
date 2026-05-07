@@ -48,24 +48,24 @@ class GameObject:
 
 
 class Apple(GameObject):
-    """Класс яблока: появляется в случайном месте поля."""
+    """Класс яблока, наследуется от GameObject."""
 
     def __init__(self):
+        """Инициализирует яблоко со случайной позицией."""
         super().__init__(body_color=APPLE_COLOR)
         self.randomize_position()
 
     def randomize_position(self):
         """Задаёт яблоку случайные координаты в пределах игровой сетки."""
-        self.position = (
-            randint(0, SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE,
-            randint(0, SCREEN_HEIGHT // GRID_SIZE - 1) * GRID_SIZE
-        )
+        x = randint(0, GRID_WIDTH - 1) * GRID_SIZE
+        y = randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+        self.position = (x, y)
 
-    def draw(self):
+    def draw(self, surface):
         """Отрисовывает яблоко (красный квадрат с рамкой)."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(screen, self.body_color, rect)
-        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+        pygame.draw.rect(surface, self.body_color, rect)
+        pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
 
 
 class Snake(GameObject):
